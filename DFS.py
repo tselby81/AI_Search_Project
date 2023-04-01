@@ -1,3 +1,4 @@
+import pygame
 import time
 
 start_time = time.time()
@@ -53,29 +54,50 @@ class DFS_search:
                 continue
             explored.add(node)
             if node == self.goal:
-                print()
-                print('GOALLLL!!!')
-                print()
                 return cost+1, solution+[node], len(explored), len(frontier)
             for child in self.get_children(node):
                 frontier.append((cost+1, child, solution+[node]))
+        return None
     
     def report(self):
         dfs_solution = self.search()
+
+        print('The path taken to solve the maze was:')
+        print('.'.join([str(pos) for pos in dfs_solution[1]]))
+
         print("The cost for this solution's path was ", dfs_solution[0])
-        print()
+
         print('The number of nodes expanded: ', dfs_solution[2])
-        print()
+
         print('Maximum size of the frontier queue: ', (dfs_solution[3]-1))
+
         print()
 
-DFS_search('smallMaze.txt').report()
-print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-DFS_search('smallMaze.txt').report()
-print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-DFS_search('mediumMaze.txt').report()
-print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-DFS_search('bigMaze.txt').report()
-print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-DFS_search('openMaze.txt').report()
+# DFS_search('smallMaze.txt').report()
+# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+# DFS_search('smallMaze.txt').report()
+# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+# DFS_search('mediumMaze.txt').report()
+# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+# DFS_search('bigMaze.txt').report()
+# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+# DFS_search('openMaze.txt').report()
 
+
+"""
+Create a function to take the solved maze and make a new .txt file
+Path taken to find the goal expressed as '.'
+"""
+def draw_solved_maze(filename, solved_maze):
+        with open(filename, 'r') as f:
+            file = f.read()
+            maze = [[char for char in line.strip()] for line in file.split('\n')]
+        for i, j in solved_maze:
+            maze[i][j] ='.'
+        #f = open("solvedSmallMaze.txt", "x")
+        for row in maze:
+            print(''.join(row) + '\n')
+
+maze = DFS_search('smallMaze.txt')
+path = maze.search()
+draw_solved_maze('smallMaze.txt', path[1])

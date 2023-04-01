@@ -1,9 +1,10 @@
 from collections import deque
-stack = deque
 
 
 # Using deque to implement some stack functionality
 class Stack:
+    def __init__(self):
+        self.container = []
     def stack(self):
         self.container = deque()
     def push(self, val):
@@ -23,8 +24,8 @@ class DFS_search:
     def read_maze(self, maze_file):
         with open(maze_file, 'r') as f:
             maze = [[char for char in line.strip()] for line in f]
-            start = None
-            goal = None
+        start = None
+        goal = None
         walls = []
         for row in range(len(maze)):
             for col in range(len(maze[row])):
@@ -36,7 +37,7 @@ class DFS_search:
                     walls.append((row, col))
         width = len(maze[0])
         height = len(maze)
-        #print(maze)
+        print(maze)
         return start, goal, walls, width, height
     
     #  Function to get the children of the current node
@@ -51,23 +52,37 @@ class DFS_search:
     
     def search(self):
         # Create a stack to store the nodes, then use those nodes to backtrack and find our path
-        frontier = Stack()
-        frontier.push(self.start)
+
+        frontier = [(0, self.start, [])]
         explored = set()
-        # current_node = 
 
-        while frontier:
-            node = frontier.pop()
-            if pos in explored:
+        explored.add(self.start)        
+
+        while frontier.__sizeof__() != 0:  #len(frontier) > 0:
+            cost, node, solution = frontier.pop()
+            for child in self.get_children(node):
+                frontier.append((cost+1, child, solution+[node]))
+                print()
+                print(frontier)
+                print()
+            if node in explored:
                 continue
-            explored.add(pos)
-            if pos == self.goal:
-                return path + [pos], cost+1, len(explored), len(frontier)
-            for child in self.get_children(pos):
-                frontier.push(child)
+            explored.add(node)
+            if node == self.goal:
+                return cost+1, solution+[node], len(explored), len(frontier)
         return None
+    
+#    print('Explored que is: ', explored)
+    
 
-DFS_search('smallMaze.txt')
+        #     explored.add(pos)
+        #     if pos == self.goal:
+        #         return path + [pos], cost+1, len(explored), len(frontier)
+        #     for child in self.get_children(pos):          #######    CALL THE get_children() FUNCTION AND PASS pos VALUE    #######
+        #         frontier.push(child)
+        # return None
+
+DFS_search('smallMaze.txt').search()
 
 """       
 DFS_search('smallMaze.txt').solve()

@@ -19,8 +19,16 @@ class DFS_search:
         for row in range(len(maze)):
             for col in range(len(maze[row])):
                 if maze[row][col] == 'P':
+                    global start_x
+                    global start_y
+                    start_x = row
+                    start_y = col
                     start = (row, col)
                 elif maze[row][col] == 'G':
+                    global goal_x
+                    global goal_y
+                    goal_x = row
+                    goal_y = col
                     goal = (row, col)
                 elif maze[row][col] == '%':
                     walls.append((row, col))
@@ -61,43 +69,55 @@ class DFS_search:
     
     def report(self):
         dfs_solution = self.search()
-
-        print('The path taken to solve the maze was:')
-        print('.'.join([str(pos) for pos in dfs_solution[1]]))
-
-        print("The cost for this solution's path was ", dfs_solution[0])
-
-        print('The number of nodes expanded: ', dfs_solution[2])
-
-        print('Maximum size of the frontier queue: ', (dfs_solution[3]-1))
-
-        print()
-
-# DFS_search('smallMaze.txt').report()
-# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-# DFS_search('smallMaze.txt').report()
-# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-# DFS_search('mediumMaze.txt').report()
-# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-# DFS_search('bigMaze.txt').report()
-# print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-# DFS_search('openMaze.txt').report()
+        report = [
+        '\nThe path taken to solve the maze was:',
+        '.'.join([str(pos) for pos in dfs_solution[1]]),
+        "\nThe cost for this solution's path was: ", dfs_solution[0],
+        '\nThe number of nodes expanded: ', dfs_solution[2],
+        '\nMaximum size of the frontier queue: ', (dfs_solution[3]-1)
+        ]
+        return report
 
 
 """
 Create a function to take the solved maze and make a new .txt file
 Path taken to find the goal expressed as '.'
 """
-def draw_solved_maze(filename, solved_maze):
+def draw_solved_maze(filename, new_filename, solved_maze):
         with open(filename, 'r') as f:
             file = f.read()
-            maze = [[char for char in line.strip()] for line in file.split('\n')]
+            maze = [list(line.strip()) for line in file.split('\n')]
         for i, j in solved_maze:
-            maze[i][j] ='.'
-        #f = open("solvedSmallMaze.txt", "x")
+            if maze[i][j] == maze[start_x][start_y]:
+                maze[i][j] = 'P'
+            elif maze[i][j] == maze[goal_x][goal_y]:
+                maze[i][j] = 'G'
+            else:
+                maze[i][j] ='.'
+        new = open(new_filename, "x")
         for row in maze:
-            print(''.join(row) + '\n')
+            new.write(''.join(row) + '\n')
+        new.write('\n'+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'+'\n')
+        for item in (DFS_search(filename).report()):
+            new.write(str(item) + '\n')
+        new.close()
 
-maze = DFS_search('smallMaze.txt')
-path = maze.search()
-draw_solved_maze('smallMaze.txt', path[1])
+"""
+path[1] is the list of nodes we travel to get to the goal.
+This value is passed into the draw_solved_maze() as an argument and referenced within the function as the list variable maze[].
+"""
+
+path = DFS_search('smallMaze.txt').search()
+draw_solved_maze('smallMaze.txt', 'solvedSmallMaze.txt', path[1])
+
+
+path = DFS_search('mediumMaze.txt').search()
+draw_solved_maze('mediumMaze.txt', 'solvedMediumMaze.txt', path[1])
+
+
+path = DFS_search('bigMaze.txt').search()
+draw_solved_maze('bigMaze.txt', 'solvedBigMaze.txt', path[1])
+
+
+path = DFS_search('openMaze.txt').search()
+draw_solved_maze('openMaze.txt', 'solvedOpenMaze.txt', path[1])

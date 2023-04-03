@@ -1,7 +1,3 @@
-import pygame
-import time
-
-start_time = time.time()
 
 class DFS_search:
     def __init__(self, maze_file):
@@ -121,3 +117,4 @@ draw_solved_maze('bigMaze.txt', 'solvedBigMaze.txt', path[1])
 
 path = DFS_search('openMaze.txt').search()
 draw_solved_maze('openMaze.txt', 'solvedOpenMaze.txt', path[1])
+

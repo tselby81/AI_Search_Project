@@ -1,4 +1,5 @@
 
+
 class DFS_search:
     def __init__(self, maze_file):
         self.start, self.goal, self.walls, self.width, self.height = self.read_maze(maze_file)
@@ -65,14 +66,15 @@ class DFS_search:
     
     def report(self):
         dfs_solution = self.search()
-        report = [
-        '\nThe path taken to solve the maze was:',
-        '.'.join([str(pos) for pos in dfs_solution[1]]),
-        "\nThe cost for this solution's path was: ", dfs_solution[0],
-        '\nThe number of nodes expanded: ', dfs_solution[2],
-        '\nMaximum size of the frontier queue: ', (dfs_solution[3]-1)
-        ]
-        return report
+
+        print('The path taken to solve the maze was:')
+        print('.'.join([str(pos) for pos in dfs_solution[1]]))
+        print("The cost for this solution's path was: ")
+        print(dfs_solution[0])
+        print('The number of nodes expanded: ')
+        print(dfs_solution[2])
+        print('Maximum size of the frontier queue: ')
+        print(dfs_solution[3]-1)
 
 
 """
@@ -93,9 +95,9 @@ def draw_solved_maze(filename, new_filename, solved_maze):
         new = open(new_filename, "x")
         for row in maze:
             new.write(''.join(row) + '\n')
-        new.write('\n'+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'+'\n')
-        for item in (DFS_search(filename).report()):
-            new.write(str(item) + '\n')
+        # new.write('\n'+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'+'\n')
+        # for item in (DFS_search(filename).report()):
+        #     new.write(str(item) + '\n')
         new.close()
 
 """
@@ -103,18 +105,28 @@ path[1] is the list of nodes we travel to get to the goal.
 This value is passed into the draw_solved_maze() as an argument and referenced within the function as the list variable maze[].
 """
 
-path = DFS_search('smallMaze.txt').search()
-draw_solved_maze('smallMaze.txt', 'solvedSmallMaze.txt', path[1])
+# path = DFS_search('smallMaze.txt').search()
+# DFS_search('smallMaze.txt').report()
+# draw_solved_maze('smallMaze.txt', 'solvedSmallMaze.txt', path[1])
 
 
-path = DFS_search('mediumMaze.txt').search()
-draw_solved_maze('mediumMaze.txt', 'solvedMediumMaze.txt', path[1])
+# path = DFS_search('mediumMaze.txt').search()
+# DFS_search('mediumMaze.txt').report()
+# draw_solved_maze('mediumMaze.txt', 'solvedMediumMaze.txt', path[1])
 
 
-path = DFS_search('bigMaze.txt').search()
-draw_solved_maze('bigMaze.txt', 'solvedBigMaze.txt', path[1])
+# path = DFS_search('bigMaze.txt').search()
+# DFS_search('bigMaze.txt').report()
+# draw_solved_maze('bigMaze.txt', 'solvedBigMaze.txt', path[1])
 
 
-path = DFS_search('openMaze.txt').search()
-draw_solved_maze('openMaze.txt', 'solvedOpenMaze.txt', path[1])
+# path = DFS_search('openMaze.txt').search()
+# DFS_search('openMaze.txt').report()
+# draw_solved_maze('openMaze.txt', 'solvedOpenMaze.txt', path[1])
+
+
+def get_maze_file():
+    # maze_file = input("Please write the name of the file you would like to solve.\n(PLEASE INCLUDE \".txt\")" + '\n')
+    # print(maze_file)
+    pass
 

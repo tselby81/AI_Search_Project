@@ -110,7 +110,6 @@ def choose_maze():
                     active = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    user_text = ""
                     intro = False
                     return user_text
                 if event.key == pygame.K_BACKSPACE:
@@ -120,8 +119,6 @@ def choose_maze():
                     user_text += event.unicode
             elif event.type == pygame.QUIT:
                 intro = False
-                # sys.exit()
-        #return user_text
 
         clock.tick(FPS)
 
@@ -175,5 +172,5 @@ def main():
 
 
 if __name__ == "__main__":
-    choose_maze()
+    print(choose_maze())
     main()

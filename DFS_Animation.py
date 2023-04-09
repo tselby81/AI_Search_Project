@@ -11,13 +11,11 @@ GRID_SIZE = 30
 
 MAZE = []
 
-with open('solvedSmallMaze.txt', 'r') as f:
+with open('mediumMaze.txt', 'r') as f:
     maze = [[char for char in line.strip()] for line in f]
 MAZE = maze
 
-########################################################################################################
-                    # Figure out MAZE_HEIGHT, MAZE_WIDTH
-########################################################################################################
+
 
 MAZE_HEIGHT = (len(maze)*GRID_SIZE)
 MAZE_WIDTH = (len(maze[0])*GRID_SIZE)
@@ -38,7 +36,9 @@ DARK_PURPLE = (93, 71, 139)
 
 FPS = 30
 
-
+"""
+Function to draw the background and adapt the size of the window to the size of the maze.
+"""
 def draw_grid(surface):
     for y in range(0, int(MAZE_HEIGHT + GRID_SIZE*4)):
         for x in range(0, int(MAZE_WIDTH + GRID_SIZE*4)):
@@ -50,12 +50,20 @@ def draw_grid(surface):
                 pygame.draw.rect(surface, pygame.Color("slategrey"), r)
 
 
+"""
+Function to loop over a text file and draw specified box depending on the character we see.
+% = wall = black box
+P = start = green box
+. = path = light blue box
+G = goal = red box
+if none of these, we do nothing which shows the background so the space looks empty
+"""
 def draw_window():
     WIN.fill("lightslategrey")
 
     draw_grid(WIN)
 
-    with open('solvedSmallMaze.txt', 'r') as f:
+    with open('mediumMaze.txt', 'r') as f:
             maze = [[char for char in line.strip()] for line in f]
     for row in range(len(maze)):
         for col in range(len(maze[row])):
@@ -75,7 +83,10 @@ def draw_window():
 #Need to update the window to display what has been drawn in the loop
         pygame.display.update()
 
-
+"""
+Displays a window where the user can choose which .txt file they want to run by typing the path of the file.
+User input should be saved to a variable and used as input for reading as a .txt file
+"""
 def choose_maze():
     pygame.init()
 
@@ -97,6 +108,8 @@ def choose_maze():
     intro = True
     active = False
 
+# Loop which checks for keystrokes entered by the user.
+# Should save the input into a str variable, then exit on pressing "enter"
     while intro:
         if active:
             color = LIGHT_PURPLE
@@ -126,6 +139,7 @@ def choose_maze():
         screen.fill("lightslategrey")
         pygame.display.flip()
 
+# Creating rect to show text
         title = font.render("PLEASE ENTER MAZE FILE NAME BELOW.", True, (0, 0, 0), None)
         titleRect = title.get_rect()
         titleRect.center = ((MAZE_WIDTH + (GRID_SIZE*4)) / 2, 125)
@@ -136,7 +150,7 @@ def choose_maze():
         exampleRect.center = ((MAZE_WIDTH + (GRID_SIZE*4)) / 2, 155)
         screen.blit(example, exampleRect)
 
-
+# Creating rect to show input textbox
         pygame.draw.rect(screen, color, input)
         text_surface = font2.render(user_text, True, (255, 255, 255))
         screen.blit(text_surface, (input.x+5, input.y+5))
@@ -156,6 +170,7 @@ Other specialized functions should be written outside and called in the game loo
 """
 def main():
 
+    
     # Clock item to control how many times we loop per second
     clock = pygame.time.Clock()
 

@@ -11,11 +11,9 @@ GRID_SIZE = 30
 
 MAZE = []
 
-with open('mediumMaze.txt', 'r') as f:
+with open('solvedSmallMaze.txt', 'r') as f:
     maze = [[char for char in line.strip()] for line in f]
 MAZE = maze
-
-
 
 MAZE_HEIGHT = (len(maze)*GRID_SIZE)
 MAZE_WIDTH = (len(maze[0])*GRID_SIZE)
@@ -34,7 +32,7 @@ RED = (255, 0, 0)
 LIGHT_PURPLE = (159, 121, 238)
 DARK_PURPLE = (93, 71, 139)
 
-FPS = 30
+FPS = 10
 
 """
 Function to draw the background and adapt the size of the window to the size of the maze.
@@ -63,7 +61,7 @@ def draw_window():
 
     draw_grid(WIN)
 
-    with open('mediumMaze.txt', 'r') as f:
+    with open('solvedSmallMaze.txt', 'r') as f:
             maze = [[char for char in line.strip()] for line in f]
     for row in range(len(maze)):
         for col in range(len(maze[row])):
@@ -79,9 +77,6 @@ def draw_window():
             elif maze[row][col] == 'G':
                 maze[row][col] = pygame.draw.rect(WIN, RED, pygame.Rect((col*GRID_SIZE)+(GRID_SIZE*2), (row*GRID_SIZE)+(GRID_SIZE*2), GRID_SIZE, GRID_SIZE))
 
-
-#Need to update the window to display what has been drawn in the loop
-        pygame.display.update()
 
 """
 Displays a window where the user can choose which .txt file they want to run by typing the path of the file.
@@ -137,7 +132,6 @@ def choose_maze():
 
         screen.blit(surface, (0, 0))
         screen.fill("lightslategrey")
-        pygame.display.flip()
 
 # Creating rect to show text
         title = font.render("PLEASE ENTER MAZE FILE NAME BELOW.", True, (0, 0, 0), None)
@@ -182,10 +176,11 @@ def main():
                 run = False
 
         draw_window()
+        pygame.display.update()
 
     pygame.quit()
 
 
 if __name__ == "__main__":
-    print(choose_maze())
+    choose_maze()
     main()

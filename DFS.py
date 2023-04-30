@@ -45,13 +45,16 @@ class DFS_search:
     def get_children(self, child):
         row, col = child
         children = [(row-1, col), (row, col-1), (row+1, col), (row, col+1)]
+
+        # LIST COMPREHENSION TO RETURN THE CHILD NODE VALUES
         return [(x, y) for x, y in children if 0 <= x < self.height and 0 <= y < self.width and (x, y) not in self.walls]
 
-##########################      \/THIS SYNTAXT\/  VS  /\ABOVE SYNTAX/\ ????       ##########################
+##########################      THE BELOW EXAMPLE IS A LONGER OPTION EQUIVILENT TO LIST COMPREHENSION       ##########################
+        # new_child = []
         # for x, y in children:
         #   if 0 <= x < self.height and 0 <= y < self.width and (x, y) not in self.walls:
-        # return x, y
-
+        #   newchild.append(x,y)
+        # return new_child
 
     """
     Function which loops through the nodes in get_children().
@@ -123,22 +126,22 @@ def draw_solved_maze(filename, new_filename, solved_maze):
 # path[1] is the list of nodes we travel to get to the goal.
 # This value is passed into the draw_solved_maze() as an argument and referenced within the function as the list variable maze[].
 
-path = DFS_search('smallMaze.txt').search()
-DFS_search('smallMaze.txt').report()
-draw_solved_maze('smallMaze.txt', 'solvedSmallMaze.txt', path[1])
+# path = DFS_search('smallMaze.txt').search()
+# DFS_search('smallMaze.txt').report()
+# draw_solved_maze('smallMaze.txt', 'solvedSmallMaze.txt', path[1])
 
 
-path = DFS_search('mediumMaze.txt').search()
-DFS_search('mediumMaze.txt').report()
-draw_solved_maze('mediumMaze.txt', 'solvedMediumMaze.txt', path[1])
+# path = DFS_search('mediumMaze.txt').search()
+# DFS_search('mediumMaze.txt').report()
+# draw_solved_maze('mediumMaze.txt', 'solvedMediumMaze.txt', path[1])
 
 
-path = DFS_search('bigMaze.txt').search()
-DFS_search('bigMaze.txt').report()
-draw_solved_maze('bigMaze.txt', 'solvedBigMaze.txt', path[1])
+# path = DFS_search('bigMaze.txt').search()
+# DFS_search('bigMaze.txt').report()
+# draw_solved_maze('bigMaze.txt', 'solvedBigMaze.txt', path[1])
 
 
-path = DFS_search('openMaze.txt').search()
-DFS_search('openMaze.txt').report()
-draw_solved_maze('openMaze.txt', 'solvedOpenMaze.txt', path[1])
+# path = DFS_search('openMaze.txt').search()
+# DFS_search('openMaze.txt').report()
+# draw_solved_maze('openMaze.txt', 'solvedOpenMaze.txt', path[1])
 
